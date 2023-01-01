@@ -1,38 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="3dp"
     android:padding="3dp"
     android:orientation="vertical">
-    <TextView
-        android:id="@+id/vacancyName"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/vacancyName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="24sp"
+            android:singleLine="true"
+            tools:text="Название вакансии"/>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_star_border"/>
+    </LinearLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/salary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="грузчик"/>
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/salary"
-        tools:text="10-11 рублей"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_marginTop="5dp"
+        app:drawableStartCompat="@drawable/ic_wallet"
+        android:drawablePadding="7dp"
+        android:lines="1"
+        android:textSize="19sp"
+        tools:text="Зарплата" />
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/location"
-        tools:text="myhosransk"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/company"
-        tools:text="oao tri kota"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:drawableStartCompat="@drawable/ic_location"
+        android:drawablePadding="7dp"
+        android:lines="1"
+        android:textSize="19sp"
+        tools:text="Местоположение" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/employer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:drawableStartCompat="@drawable/ic_company"
+        android:drawablePadding="7dp"
+        android:lines="1"
+        android:textSize="19sp"
+        tools:text="Компания" />
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/requirement"
-        tools:text="hodit' ni4ego ne delat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="19sp"
+        tools:text="Краткие требования" />
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="@string/apply_for_job"
+        android:layout_marginTop="5dp"/>
 
 </LinearLayout>
