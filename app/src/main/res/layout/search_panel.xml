@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/salary"
+        android:hint="@string/salary_hint"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/onlyWithSalary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/only_with_salary" />
+    <Spinner
+        android:id="@+id/experienceSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/type_employment"/>
+
+    <CheckBox
+        android:id="@+id/employmentFullCheckbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/full_employment" />
+
+    <CheckBox
+        android:id="@+id/employmentPartCheckbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/part_employment" />
+
+    <CheckBox
+        android:id="@+id/employmentProjectCheckbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/project_employment" />
+
+    <CheckBox
+        android:id="@+id/employmentVolunteerCheckbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/volunteer_employment" />
+
+    <CheckBox
+        android:id="@+id/employmentProbationCheckbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/probation_employment" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/schedule"/>
+
+    <CheckBox
+        android:id="@+id/scheduleFullDay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/full_day_schedule" />
+
+    <CheckBox
+        android:id="@+id/scheduleShift"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/shift_schedule" />
+
+    <CheckBox
+        android:id="@+id/scheduleFlexible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/flexible_schedule" />
+
+    <CheckBox
+        android:id="@+id/scheduleRemote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/remote_schedule" />
+
+    <CheckBox
+        android:id="@+id/scheduleFlyInFlyOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fly_in_fly_out_schedule" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/searchButton"
+        android:text="@string/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

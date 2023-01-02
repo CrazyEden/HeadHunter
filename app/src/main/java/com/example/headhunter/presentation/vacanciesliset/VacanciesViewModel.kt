@@ -7,6 +7,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.example.headhunter.model.data.PagerDataParams
 import com.example.headhunter.model.data.pagerdata.Items
 import com.example.headhunter.model.reps.NetworkRep
 import kotlinx.coroutines.flow.Flow
@@ -15,13 +16,18 @@ import javax.inject.Inject
 class VacanciesViewModel(
     private val networkRep: NetworkRep
 ) : ViewModel() {
-    val items: Flow<PagingData<Items>> = Pager(
-        config = PagingConfig(
-            pageSize = 20,
-            initialLoadSize = 20,
-            enablePlaceholders = false
-        ),
-        pagingSourceFactory = { VacanciesPagingSource(networkRep) }
+    fun createFlow(params: PagerDataParams): Flow<PagingData<Items>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                initialLoadSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { VacanciesPagingSource(
+                networkRep,
+                params
+            )
+        }
     ).flow.cachedIn(viewModelScope)
 
     class Factory @Inject constructor(

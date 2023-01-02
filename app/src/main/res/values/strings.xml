@@ -2,4 +2,24 @@
     <string name="app_name">HeadHunter</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="apply_for_job">Откликнуться</string>
+    <string name="full_day_schedule">Полный день</string>
+    <string name="shift_schedule">Сменный график</string>
+    <string name="flexible_schedule">Гибкий график</string>
+    <string name="remote_schedule">Удаленная работа</string>
+    <string name="fly_in_fly_out_schedule">Вахтовый метод</string>
+    <string name="full_employment">Полная занятость</string>
+    <string name="part_employment">Частичная занятость</string>
+    <string name="project_employment">Проектная работа</string>
+    <string name="volunteer_employment">Волонтерство</string>
+    <string name="probation_employment">Стажировка</string>
+    <string name="no_experience_experience">Нет опыта</string>
+    <string name="between1and3_experience">От 1 года до 3 лет</string>
+    <string name="between3and6_experience">От 3 до 6 лет</string>
+    <string name="more_than6_experience">Более 6 лет</string>
+    <string name="type_employment">Тип занятости</string>
+    <string name="schedule">График работы</string>
+    <string name="salary_hint">Зарплата</string>
+    <string name="only_with_salary">Только вакансии с указанной зарплатой</string>
+    <string name="search">Поиск</string>
+    <string name="search_vacancies">Поиск вакансий</string>
 </resources>

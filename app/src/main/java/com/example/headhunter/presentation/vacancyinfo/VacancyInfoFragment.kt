@@ -20,8 +20,7 @@ import javax.inject.Inject
 class VacancyInfoFragment : Fragment() {
     private lateinit var binding:FragmentVacancyInfoBinding
 
-    @Inject
-    lateinit var factory : VacancyInfoViewModel.Factory.Factoryy
+    @Inject lateinit var factory : VacancyInfoViewModel.Factory.Factoryy
 
     private val vModel:VacancyInfoViewModel by viewModels{
         factory.create(arguments?.getString(ID_KEY)!!)
@@ -40,11 +39,7 @@ class VacancyInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentVacancyInfoBinding.inflate(inflater,container,false)
-
         vModel.vacancyInfoLiveData.observe(viewLifecycleOwner){ inflateView(it) }
-
-
-
         return binding.root
     }
 
@@ -59,8 +54,8 @@ class VacancyInfoFragment : Fragment() {
         binding.employer.text = vacancyInfo.employer?.name
         binding.area.text = vacancyInfo.area?.name
         binding.descriptions.text = Html.fromHtml(vacancyInfo.description,FROM_HTML_MODE_COMPACT)
+
         Log.d(TAG, "inflateView: ${vacancyInfo.keySkills.count()}")
-//        binding.keySkills.setHasFixedSize(false)
         binding.keySkills.adapter = KeySkillsAdapter(vacancyInfo.keySkills.map { it.name })
     }
 

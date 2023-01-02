@@ -66,7 +66,7 @@
         android:layout_marginTop="5dp"
         android:textSize="19sp"
         tools:text="Краткие требования" />
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/apply_for_job"
