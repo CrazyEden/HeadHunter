@@ -10,9 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.domain.model.vacancyinfo.VacancyInfo
 import com.example.headhunter.appComponent
 import com.example.headhunter.databinding.FragmentVacancyInfoBinding
-import com.example.headhunter.model.data.vacancyinfo.VacancyInfo
 import com.example.headhunter.presentation.vacanciesliset.TAG
 import javax.inject.Inject
 

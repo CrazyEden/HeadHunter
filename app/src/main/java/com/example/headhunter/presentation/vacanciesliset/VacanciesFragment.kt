@@ -13,10 +13,10 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.data.model.PagerDataParamsParcel
 import com.example.headhunter.R
 import com.example.headhunter.appComponent
 import com.example.headhunter.databinding.FragmentVacanciesBinding
-import com.example.headhunter.model.data.PagerDataParams
 import com.example.headhunter.presentation.utils.SearchSettings
 import com.example.headhunter.presentation.vacancyinfo.VacancyInfoFragment
 import kotlinx.coroutines.flow.collectLatest
@@ -26,7 +26,7 @@ import javax.inject.Inject
 const val TAG = "xdd"
 class VacanciesFragment : Fragment() {
     private lateinit var binding:FragmentVacanciesBinding
-    private var params = PagerDataParams()
+    private var params = PagerDataParamsParcel()
     @Inject lateinit var factory: VacanciesViewModel.Factory
     private val vModel: VacanciesViewModel by viewModels{ factory }
     private lateinit var adapter: VacanciesPagingAdapter
@@ -39,8 +39,7 @@ class VacanciesFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         @Suppress("DEPRECATION")
-        val pagerDataParams = savedInstanceState?.getParcelable(pKey) as? PagerDataParams
-        if (pagerDataParams !=null) params = pagerDataParams
+        params = savedInstanceState?.getParcelable(pKey) as? PagerDataParamsParcel ?: params
         super.onCreate(savedInstanceState)
     }
     private val pKey = "SearchParams"
@@ -84,7 +83,9 @@ class VacanciesFragment : Fragment() {
             params.onlyWithSalary = isChecked
         }
         binding.fullSearchPanel.salary.addTextChangedListener {
-            params.salary = it.toString().toInt()
+            val str = it.toString()
+            if (str.isNotEmpty())
+                params.salary = str.toInt()
         }
         binding.fullSearchPanel.searchButton.setOnClickListener {
             search()

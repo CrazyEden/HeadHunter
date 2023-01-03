@@ -1,6 +1,6 @@
 package com.example.headhunter.di
 
-import com.example.headhunter.domain.Api
+import com.example.data.reps.Api
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

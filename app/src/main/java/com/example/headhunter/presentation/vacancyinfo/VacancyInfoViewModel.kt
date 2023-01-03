@@ -1,8 +1,7 @@
 package com.example.headhunter.presentation.vacancyinfo
 
 import androidx.lifecycle.*
-import com.example.headhunter.model.data.vacancyinfo.VacancyInfo
-import com.example.headhunter.model.reps.NetworkRep
+import com.example.domain.reps.NetworkRep
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -13,8 +12,8 @@ class VacancyInfoViewModel(
     private val id:String,
     private val networkRep: NetworkRep
 ) : ViewModel() {
-    private val _vacancyInfoLiveData = MutableLiveData<VacancyInfo>()
-    val vacancyInfoLiveData:LiveData<VacancyInfo> = _vacancyInfoLiveData
+    private val _vacancyInfoLiveData = MutableLiveData<com.example.domain.model.vacancyinfo.VacancyInfo>()
+    val vacancyInfoLiveData:LiveData<com.example.domain.model.vacancyinfo.VacancyInfo> = _vacancyInfoLiveData
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -31,7 +30,7 @@ class VacancyInfoViewModel(
         }
         @AssistedFactory
         interface Factoryy{
-            fun create (@Assisted(VACANCY_ID_KEY) id:String):VacancyInfoViewModel.Factory
+            fun create (@Assisted(VACANCY_ID_KEY) id:String):Factory
         }
     }
 
