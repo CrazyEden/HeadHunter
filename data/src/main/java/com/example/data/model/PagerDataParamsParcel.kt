@@ -2,7 +2,6 @@ package com.example.data.model
 
 import android.os.Parcelable
 import com.example.domain.model.PagerDataParams
-import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -14,8 +13,7 @@ data class PagerDataParamsParcel(
     var salary:Int? = null,
     var onlyWithSalary:Boolean = false
 ): Parcelable{
-    @IgnoredOnParcel
-    val pagerDataParams = PagerDataParams(
+    fun toPagerDataParams() = PagerDataParams(
         text = text,
         experienceId = experienceId,
         employmentIds = employmentIds,

@@ -5,10 +5,10 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.data.model.PagerDataParamsParcel
 import com.example.domain.model.pagerdata.Items
-import com.example.domain.reps.NetworkRep
+import com.example.domain.usecase.GetPageVacanciesUseCase
 
 class VacanciesPagingSource(
-    private val networkRep: NetworkRep,
+    private val getPageVacanciesUseCase: GetPageVacanciesUseCase,
     private val requestParams: PagerDataParamsParcel
 ) : PagingSource<Int, Items>() {
 
@@ -20,9 +20,9 @@ class VacanciesPagingSource(
         val key = params.key ?: 0
 
         return try {
-            val page = networkRep.getVacancies(
+            val page = getPageVacanciesUseCase.execute(
                 page =key,
-                params = requestParams.pagerDataParams
+                params = requestParams.toPagerDataParams()
             )!!
             val pKey = if (key == 0) null else key.minus(1)
             val nKey = if (key == page.pages) null else key.plus(1)

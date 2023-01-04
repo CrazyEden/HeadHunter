@@ -21,6 +21,7 @@ class SearchSettings(val context:Context) {
         context.getString(R.string.probation_employment) to "probation"
     )
     val experience = mapOf(
+        context.getString(R.string.select_exp) to null,
         context.getString(R.string.no_experience_experience) to "noExperience",
         context.getString(R.string.between1and3_experience) to "between1And3",
         context.getString(R.string.between3and6_experience) to "between3And6",

@@ -10,9 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import coil.load
+import coil.transform.RoundedCornersTransformation
 import com.example.domain.model.vacancyinfo.VacancyInfo
 import com.example.headhunter.appComponent
 import com.example.headhunter.databinding.FragmentVacancyInfoBinding
+import com.example.headhunter.presentation.utils.toCompactString
 import com.example.headhunter.presentation.vacanciesliset.TAG
 import javax.inject.Inject
 
@@ -47,16 +50,29 @@ class VacancyInfoFragment : Fragment() {
         binding.progressBar.visibility = View.GONE
 
         binding.vacancyName.text = vacancyInfo.name
-        binding.salary.text = vacancyInfo.salary.toString()
-        binding.experienceName.text = vacancyInfo.experience?.name
-        binding.scheduleName.text = vacancyInfo.schedule?.name
+        binding.salary.text = vacancyInfo.salary?.toCompactString
+        val exp = "Требуемый опыт: ${vacancyInfo.experience?.name}"
+        binding.experienceName.text = exp
+        val sch = "${vacancyInfo.schedule?.name}, ${vacancyInfo.employment?.name}"
+        binding.scheduleName.text = sch
 
         binding.employer.text = vacancyInfo.employer?.name
+        binding.employerImage.load(
+        vacancyInfo.employer?.logoUrls?.original
+            ?: vacancyInfo.employer?.logoUrls?._240
+            ?: "https://cdn3.iconfinder.com/data/icons/human-resources-management/512/job_vacancy_work_oppotunity-1024.png"
+        ){
+            crossfade(true)
+            crossfade(1000)
+            transformations(RoundedCornersTransformation(30f))
+        }
         binding.area.text = vacancyInfo.area?.name
         binding.descriptions.text = Html.fromHtml(vacancyInfo.description,FROM_HTML_MODE_COMPACT)
 
         Log.d(TAG, "inflateView: ${vacancyInfo.keySkills.count()}")
-        binding.keySkills.adapter = KeySkillsAdapter(vacancyInfo.keySkills.map { it.name })
+        if (vacancyInfo.keySkills.isNotEmpty())
+            binding.keySkills.adapter = KeySkillsAdapter(vacancyInfo.keySkills.map { it.name })
+        else binding.keySkillsTextView.visibility = View.GONE
     }
 
     companion object{

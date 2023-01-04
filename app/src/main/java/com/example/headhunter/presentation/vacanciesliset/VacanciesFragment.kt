@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -61,7 +62,9 @@ class VacanciesFragment : Fragment() {
         binding.rcViewVacancies.adapter = adapterWithLoadStateFooter
 
         binding.imageButtonFullSettings.setOnClickListener {
-            binding.fullSearchPanel.root.visibility = View.VISIBLE
+            binding.fullSearchPanel.root.visibility =
+                if (binding.fullSearchPanel.root.isVisible) View.GONE
+                else View.VISIBLE
         }
         inflateSearchPanel()
 
@@ -159,6 +162,7 @@ class VacanciesFragment : Fragment() {
             params.experienceId = searchSettings.experience[binding
                 .fullSearchPanel.experienceSpinner.selectedItem.toString()]
         }
+        Log.w(TAG, "search: ${params.text}")
         Log.w(TAG, "search: ${params.experienceId}")
         Log.w(TAG, "search: ${params.scheduleIds}")
         Log.w(TAG, "search: ${params.employmentIds}")

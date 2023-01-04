@@ -9,12 +9,12 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.data.model.PagerDataParamsParcel
 import com.example.domain.model.pagerdata.Items
-import com.example.domain.reps.NetworkRep
+import com.example.domain.usecase.GetPageVacanciesUseCase
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class VacanciesViewModel(
-    private val networkRep: NetworkRep
+    private val getPageVacanciesUseCase: GetPageVacanciesUseCase
 ) : ViewModel() {
     fun createFlow(params: PagerDataParamsParcel): Flow<PagingData<Items>> =
         Pager(
@@ -24,17 +24,19 @@ class VacanciesViewModel(
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { VacanciesPagingSource(
-                networkRep,
+                getPageVacanciesUseCase,
                 params
             )
         }
     ).flow.cachedIn(viewModelScope)
 
     class Factory @Inject constructor(
-        private val networkRep: NetworkRep
+        private val getPageVacanciesUseCase: GetPageVacanciesUseCase
     ):ViewModelProvider.Factory{
+        @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return VacanciesViewModel(networkRep) as T
+            require(modelClass.isAssignableFrom(VacanciesViewModel::class.java))
+            return VacanciesViewModel(getPageVacanciesUseCase) as T
         }
     }
 }
