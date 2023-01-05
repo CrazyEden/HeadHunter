@@ -40,13 +40,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"/>
             </LinearLayout>
-            <include
-                android:id="@+id/fullSearchPanel"
-                android:visibility="gone"
-                android:layout_margin="20dp"
-                layout="@layout/search_panel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+
         </LinearLayout>
 
     </ScrollView>

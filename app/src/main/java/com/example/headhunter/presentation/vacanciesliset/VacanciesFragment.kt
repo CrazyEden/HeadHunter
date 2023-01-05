@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
-import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,8 +17,10 @@ import com.example.data.model.PagerDataParamsParcel
 import com.example.headhunter.R
 import com.example.headhunter.appComponent
 import com.example.headhunter.databinding.FragmentVacanciesBinding
+import com.example.headhunter.databinding.SearchPanelBinding
 import com.example.headhunter.presentation.utils.SearchSettings
 import com.example.headhunter.presentation.vacancyinfo.VacancyInfoFragment
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,7 +32,8 @@ class VacanciesFragment : Fragment() {
     @Inject lateinit var factory: VacanciesViewModel.Factory
     private val vModel: VacanciesViewModel by viewModels{ factory }
     private lateinit var adapter: VacanciesPagingAdapter
-
+    private lateinit var dialod: BottomSheetDialog
+    private lateinit var dialogBinding:SearchPanelBinding
     private lateinit var searchSettings: SearchSettings
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
@@ -52,6 +54,9 @@ class VacanciesFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentVacanciesBinding.inflate(inflater,container,false)
+        dialogBinding = SearchPanelBinding.inflate(layoutInflater)
+        dialod = BottomSheetDialog(requireContext())
+        dialod.setContentView(dialogBinding.root)
         searchSettings = SearchSettings(requireContext())
         adapter = VacanciesPagingAdapter{ openInfoFragment(it) }
         search()
@@ -62,9 +67,7 @@ class VacanciesFragment : Fragment() {
         binding.rcViewVacancies.adapter = adapterWithLoadStateFooter
 
         binding.imageButtonFullSettings.setOnClickListener {
-            binding.fullSearchPanel.root.visibility =
-                if (binding.fullSearchPanel.root.isVisible) View.GONE
-                else View.VISIBLE
+            dialod.show()
         }
         inflateSearchPanel()
 
@@ -82,20 +85,20 @@ class VacanciesFragment : Fragment() {
             }
             false
         }
-        binding.fullSearchPanel.onlyWithSalary.setOnCheckedChangeListener { _, isChecked ->
+        dialogBinding.onlyWithSalary.setOnCheckedChangeListener { _, isChecked ->
             params.onlyWithSalary = isChecked
         }
-        binding.fullSearchPanel.salary.addTextChangedListener {
+        dialogBinding.salary.addTextChangedListener {
             val str = it.toString()
             if (str.isNotEmpty())
                 params.salary = str.toInt()
         }
-        binding.fullSearchPanel.searchButton.setOnClickListener {
+        dialogBinding.searchButton.setOnClickListener {
             search()
         }
 
         initCheckboxListeners()
-        binding.fullSearchPanel.experienceSpinner.adapter = ArrayAdapter(
+        dialogBinding.experienceSpinner.adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_list_item_1,
             searchSettings.experience.keys.toList()
@@ -104,53 +107,63 @@ class VacanciesFragment : Fragment() {
 
     private fun initCheckboxListeners() {
         /* employment checkboxes*/
-        binding.fullSearchPanel.employmentFullCheckbox.setOnCheckedChangeListener { _, isChecked ->
+//        dialogBinding.employmentFullCheckbox.isChecked = params.employmentIds[0] != null
+//        dialogBinding.employmentPartCheckbox.isChecked = params.employmentIds[1] != null
+//        dialogBinding.employmentProjectCheckbox.isChecked = params.employmentIds[2] != null
+//        dialogBinding.employmentVolunteerCheckbox.isChecked = params.employmentIds[4] != null
+//        dialogBinding.employmentProbationCheckbox.isChecked = params.employmentIds[5] != null
+        dialogBinding.employmentFullCheckbox.setOnCheckedChangeListener { _, isChecked ->
             val key = searchSettings.employment[getString(R.string.full_employment)]!!
             if (isChecked) params.employmentIds[0] = key
             else params.employmentIds[0] = null
         }
-        binding.fullSearchPanel.employmentPartCheckbox.setOnCheckedChangeListener { _, isChecked ->
+        dialogBinding.employmentPartCheckbox.setOnCheckedChangeListener { _, isChecked ->
             val key = searchSettings.employment[getString(R.string.part_employment)]!!
             if (isChecked) params.employmentIds[1] = key
             else params.employmentIds[1] = null
         }
-        binding.fullSearchPanel.employmentProjectCheckbox.setOnCheckedChangeListener { _, isChecked ->
+        dialogBinding.employmentProjectCheckbox.setOnCheckedChangeListener { _, isChecked ->
             val key = searchSettings.employment[getString(R.string.project_employment)]!!
             if (isChecked) params.employmentIds[2] = key
             else params.employmentIds[2] = null
         }
-        binding.fullSearchPanel.employmentVolunteerCheckbox.setOnCheckedChangeListener { _, isChecked ->
+        dialogBinding.employmentVolunteerCheckbox.setOnCheckedChangeListener { _, isChecked ->
             val key = searchSettings.employment[getString(R.string.volunteer_employment)]!!
             if (isChecked) params.employmentIds[3] = key
             else params.employmentIds[3] = null
         }
-        binding.fullSearchPanel.employmentProbationCheckbox.setOnCheckedChangeListener { _, isChecked ->
+        dialogBinding.employmentProbationCheckbox.setOnCheckedChangeListener { _, isChecked ->
             val key = searchSettings.employment[getString(R.string.probation_employment)]!!
             if (isChecked) params.employmentIds[4] = key
             else params.employmentIds[4] = null
         }
         /* schedule checkboxes*/
-        binding.fullSearchPanel.scheduleFullDay.setOnCheckedChangeListener { _, isChecked ->
+//        dialogBinding.scheduleFullDay.isChecked = params.scheduleIds[0] != null
+//        dialogBinding.scheduleShift.isChecked = params.scheduleIds[1] != null
+//        dialogBinding.scheduleFlexible.isChecked = params.scheduleIds[2] != null
+//        dialogBinding.scheduleRemote.isChecked = params.scheduleIds[3] != null
+//        dialogBinding.scheduleFlyInFlyOut.isChecked = params.scheduleIds[4] != null
+        dialogBinding.scheduleFullDay.setOnCheckedChangeListener { _, isChecked ->
             val key = searchSettings.schedule[getString(R.string.full_day_schedule)]!!
             if (isChecked) params.scheduleIds[0] = key
             else params.scheduleIds[0] = null
         }
-        binding.fullSearchPanel.scheduleShift.setOnCheckedChangeListener { _, isChecked ->
+        dialogBinding.scheduleShift.setOnCheckedChangeListener { _, isChecked ->
             val key = searchSettings.schedule[getString(R.string.shift_schedule)]!!
             if (isChecked) params.scheduleIds[1] = key
             else params.scheduleIds[1] = null
         }
-        binding.fullSearchPanel.scheduleFlexible.setOnCheckedChangeListener { _, isChecked ->
+        dialogBinding.scheduleFlexible.setOnCheckedChangeListener { _, isChecked ->
             val key = searchSettings.schedule[getString(R.string.flexible_schedule)]!!
             if (isChecked) params.scheduleIds[2] = key
             else params.scheduleIds[2] = null
         }
-        binding.fullSearchPanel.scheduleRemote.setOnCheckedChangeListener { _, isChecked ->
+        dialogBinding.scheduleRemote.setOnCheckedChangeListener { _, isChecked ->
             val key = searchSettings.schedule[getString(R.string.remote_schedule)]!!
             if (isChecked) params.scheduleIds[3] = key
             else params.scheduleIds[3] = null
         }
-        binding.fullSearchPanel.scheduleFlyInFlyOut.setOnCheckedChangeListener { _, isChecked ->
+        dialogBinding.scheduleFlyInFlyOut.setOnCheckedChangeListener { _, isChecked ->
             val key = searchSettings.schedule[getString(R.string.fly_in_fly_out_schedule)]!!
             if (isChecked) params.scheduleIds[4] = key
             else params.scheduleIds[4] = null
@@ -159,15 +172,15 @@ class VacanciesFragment : Fragment() {
 
     private fun search(){
         runCatching {
-            params.experienceId = searchSettings.experience[binding
-                .fullSearchPanel.experienceSpinner.selectedItem.toString()]
+            params.experienceId = searchSettings.experience[
+                    dialogBinding.experienceSpinner.selectedItem.toString()]
         }
-        Log.w(TAG, "search: ${params.text}")
-        Log.w(TAG, "search: ${params.experienceId}")
-        Log.w(TAG, "search: ${params.scheduleIds}")
-        Log.w(TAG, "search: ${params.employmentIds}")
+        dialod.hide()
+        Log.d(TAG, "search text: ${params.text}")
+        Log.d(TAG, "search experienceId: ${params.experienceId}")
+        Log.d(TAG, "search scheduleIds: ${params.scheduleIds}")
+        Log.d(TAG, "search employmentIds: ${params.employmentIds}")
         binding.textSearch.clearFocus()
-        binding.fullSearchPanel.root.visibility = View.GONE
         lifecycleScope.launch {
             vModel.createFlow(params).collectLatest { adapter.submitData(it) }
         }
@@ -176,7 +189,8 @@ class VacanciesFragment : Fragment() {
     private fun openInfoFragment(it: String) {
         parentFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .replace(
+            .hide(this)
+            .add(
                 R.id.container,
                 VacancyInfoFragment::class.java,
                 bundleOf(VacancyInfoFragment.ID_KEY to it)
