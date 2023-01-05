@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,11 +15,13 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/ic_settings"
+        android:contentDescription="@string/button_full_settings_content_description"
         android:elevation="10dp"
         app:layout_constraintBottom_toTopOf="@id/rcViewVacancies"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/textSearch"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcViewVacancies"
@@ -37,9 +40,9 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/search_background"
+        android:drawableStart="@drawable/ic_search"
         android:drawablePadding="4dp"
         android:elevation="15dp"
-        android:translationZ="-2dp"
         android:hint="@string/search_vacancies"
         android:imeOptions="actionSearch"
         android:importantForAutofill="no"
@@ -47,6 +50,7 @@
         android:padding="10dp"
         app:layout_constraintEnd_toStartOf="@id/imageButtonFullSettings"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TouchTargetSizeCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

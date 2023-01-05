@@ -58,7 +58,9 @@ class VacanciesFragment : Fragment() {
         dialod = BottomSheetDialog(requireContext())
         dialod.setContentView(dialogBinding.root)
         searchSettings = SearchSettings(requireContext())
-        adapter = VacanciesPagingAdapter{ openInfoFragment(it) }
+        adapter = VacanciesPagingAdapter{
+            openInfoFragment(it)
+        }
         search()
 
         val adapterWithLoadStateFooter = adapter.withLoadStateFooter(VacanciesLoadStateAdapter{

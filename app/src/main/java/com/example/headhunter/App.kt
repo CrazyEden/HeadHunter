@@ -6,8 +6,10 @@ import android.content.Context
 class App:Application() {
     lateinit var appComponent:AppComponent
     override fun onCreate() {
-        appComponent = DaggerAppComponent.create()
         super.onCreate()
+        appComponent = DaggerAppComponent.builder()
+            .context(this)
+            .build()
     }
 }
 val Context.appComponent:AppComponent

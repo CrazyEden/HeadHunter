@@ -1,8 +1,9 @@
 package com.example.headhunter.presentation.utils
 
 
-val com.example.domain.model.pagerdata.Salary.toCompactString:String
+val com.example.domain.model.pagerdata.Salary?.toCompactString:String
     get() {
+        if (this == null) return "Зарплата не указана"
         var str = ""
         if (this.from!= null) str += "От ${this.from}"
         if (this.from!= null && this.to!=null) str += " "
@@ -10,8 +11,9 @@ val com.example.domain.model.pagerdata.Salary.toCompactString:String
         if (str.isNotEmpty()) str += " ${this.currency}"
         return str.ifEmpty { "Зарплата не указана" }
     }
-val com.example.domain.model.vacancyinfo.Salary.toCompactString:String
+val com.example.domain.model.vacancyinfo.Salary?.toCompactString:String
     get() {
+        if (this == null) return "Зарплата не указана"
         var str = ""
         if (this.from!= null) str += "От ${this.from}"
         if (this.from!= null && this.to!=null) str += " "

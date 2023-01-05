@@ -10,13 +10,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.RoundedCornersTransformation
+import com.example.domain.model.RoomData
 import com.example.domain.model.vacancyinfo.VacancyInfo
+import com.example.domain.usecase.localdata.SaveVacancyUseCase
 import com.example.headhunter.appComponent
 import com.example.headhunter.databinding.FragmentVacancyInfoBinding
 import com.example.headhunter.presentation.utils.toCompactString
 import com.example.headhunter.presentation.vacanciesliset.TAG
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -25,6 +29,7 @@ class VacancyInfoFragment : Fragment() {
 
     @Inject lateinit var factory : VacancyInfoViewModel.Factory.Factoryy
 
+    @Inject lateinit var saveVacancyUseCase: SaveVacancyUseCase
     private val vModel:VacancyInfoViewModel by viewModels{
         factory.create(arguments?.getString(ID_KEY)!!)
     }
@@ -66,8 +71,24 @@ class VacancyInfoFragment : Fragment() {
             crossfade(1000)
             transformations(RoundedCornersTransformation(30f))
         }
+        val des = Html.fromHtml(vacancyInfo.description,FROM_HTML_MODE_COMPACT).toString()
+        binding.employerImage.setOnClickListener {
+            lifecycleScope.launch {
+                saveVacancyUseCase.execute(RoomData(
+                    vacancyId = vacancyInfo.id!!,
+                    vacancyName = vacancyInfo.name!!,
+                    salary = vacancyInfo.salary.toCompactString,
+                    experience = vacancyInfo.experience?.name!!,
+                    schedule = vacancyInfo.schedule?.name!!,
+                    employer = vacancyInfo.employer?.name!!,
+                    area = vacancyInfo.area?.name!!,
+                    descriptions = des,
+                    keySkills = vacancyInfo.keySkills[0].name!!,
+                ))
+            }
+        }
         binding.area.text = vacancyInfo.area?.name
-        binding.descriptions.text = Html.fromHtml(vacancyInfo.description,FROM_HTML_MODE_COMPACT)
+        binding.descriptions.text = des
 
         Log.d(TAG, "inflateView: ${vacancyInfo.keySkills.count()}")
         if (vacancyInfo.keySkills.isNotEmpty())
