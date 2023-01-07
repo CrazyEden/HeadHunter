@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.example.domain.model.RoomDataEntity
@@ -21,6 +22,8 @@ import com.example.headhunter.R
 import com.example.headhunter.appComponent
 import com.example.headhunter.databinding.FragmentVacancyInfoBinding
 import com.example.headhunter.presentation.vacanciesliset.TAG
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -40,12 +43,16 @@ class VacancyInfoFragment : Fragment() {
         super.onAttach(context)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean("isVacancyFavorite",isVacancyFavorite)
+        super.onSaveInstanceState(outState)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentVacancyInfoBinding.inflate(inflater,container,false)
-
+        isVacancyFavorite = savedInstanceState?.getBoolean("isVacancyFavorite",false) ?: false
         val vacancy = arguments?.getParcelable(VACANCY_KEY) as? RoomDataEntity
         if (vacancy == null){
             vModel.vacancyInfoLiveData.observe(viewLifecycleOwner){ inflateView(it) }
@@ -64,6 +71,7 @@ class VacancyInfoFragment : Fragment() {
     private fun inflateView(vacancyInfo: RoomDataEntity){
         binding.progressBar.visibility = View.GONE
         isVacancyFavorite = true
+        binding.iconFavorite.isClickable = true
         binding.vacancyName.text = vacancyInfo.vacancyName
         binding.salary.text = vacancyInfo.salary
         val exp = "Требуемый опыт: ${vacancyInfo.experience}"
@@ -72,7 +80,11 @@ class VacancyInfoFragment : Fragment() {
         binding.scheduleName.text = sch
 
         binding.employer.text = vacancyInfo.employer
-        binding.employerImage.load(vacancyInfo.image ?: R.drawable.employer_place_holder)
+        binding.employerImage.load(vacancyInfo.image ?: R.drawable.employer_place_holder){
+            crossfade(true)
+            crossfade(1000)
+            transformations(RoundedCornersTransformation(30f))
+        }
         val des = Html.fromHtml(vacancyInfo.descriptions,FROM_HTML_MODE_COMPACT).toString()
         binding.iconFavorite.setImageResource(R.drawable.ic_heart_fill)
         binding.iconFavorite.setOnClickListener {
@@ -96,13 +108,19 @@ class VacancyInfoFragment : Fragment() {
 
         binding.employer.text = vacancyInfo.employer?.name
         binding.employerImage.load(
-        vacancyInfo.employer?.logoUrls?.original
-            ?: vacancyInfo.employer?.logoUrls?._240
+        vacancyInfo.employer?.logoUrls?._240
+            ?: vacancyInfo.employer?.logoUrls?.original
             ?: R.drawable.employer_place_holder
         ){
             crossfade(true)
-            crossfade(1000)
+            crossfade(650)
             transformations(RoundedCornersTransformation(30f))
+            listener { _, _ ->
+                lifecycleScope.launch {
+                    delay(1000)
+                    binding.iconFavorite.isClickable = true
+                }
+            }
         }
         val des = Html.fromHtml(vacancyInfo.description,FROM_HTML_MODE_COMPACT).toString()
 

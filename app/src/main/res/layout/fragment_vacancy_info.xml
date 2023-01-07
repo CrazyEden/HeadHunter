@@ -58,6 +58,7 @@
             android:id="@+id/iconFavorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:src="@drawable/ic_heart"
             android:layout_gravity="end"/>
 
