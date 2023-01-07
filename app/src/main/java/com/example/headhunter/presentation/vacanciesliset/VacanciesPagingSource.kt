@@ -3,7 +3,7 @@ package com.example.headhunter.presentation.vacanciesliset
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.data.model.PagerDataParamsParcel
+import com.example.domain.model.PagerDataParamsParcel
 import com.example.domain.model.pagerdata.Items
 import com.example.domain.usecase.GetPageVacanciesUseCase
 
@@ -22,7 +22,7 @@ class VacanciesPagingSource(
         return try {
             val page = getPageVacanciesUseCase.execute(
                 page =key,
-                params = requestParams.toPagerDataParams()
+                params = requestParams
             )!!
             val pKey = if (key == 0) null else key.minus(1)
             val nKey = if (key == page.pages) null else key.plus(1)

@@ -5,17 +5,17 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.model.RoomData
+import com.example.domain.model.RoomDataEntity
 import com.example.headhunter.databinding.ItemVacancyBinding
 
 class FavoriteVacanciesAdapter(
-    val openVacancy :(vacancy:  RoomData) -> Unit
+    val openVacancy :(vacancy:  RoomDataEntity) -> Unit
 ):RecyclerView.Adapter<FavoriteVacanciesAdapter.VHolder>() {
     class VHolder(val binding: ItemVacancyBinding) : RecyclerView.ViewHolder(binding.root)
-    private var vacancies = mutableListOf<RoomData>()
+    private var vacancies = mutableListOf<RoomDataEntity>()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(vacancies:MutableList<RoomData>?){
+    fun setData(vacancies:MutableList<RoomDataEntity>?){
         if (vacancies == null) return
         this.vacancies = vacancies
         notifyDataSetChanged()

@@ -1,7 +1,7 @@
 package com.example.headhunter.presentation.vacancyinfo
 
 import androidx.lifecycle.*
-import com.example.domain.model.RoomData
+import com.example.domain.model.RoomDataEntity
 import com.example.domain.model.vacancyinfo.VacancyInfo
 import com.example.domain.usecase.GetVacancyInfoUseCase
 import com.example.domain.usecase.localdata.GetListIdUseCase
@@ -38,13 +38,13 @@ class VacancyInfoViewModel(
         }
     }
 
-    fun makeVacancyFavorite(roomData: RoomData){
+    fun makeVacancyFavorite(roomData: RoomDataEntity){
         viewModelScope.launch {
             saveVacancyUseCase.execute(roomData)
         }
     }
 
-    fun removeVacancyFromFavoriteList(roomData: RoomData){
+    fun removeVacancyFromFavoriteList(roomData: RoomDataEntity){
         viewModelScope.launch {
             removeVacancyUseCase.execute(roomData)
         }

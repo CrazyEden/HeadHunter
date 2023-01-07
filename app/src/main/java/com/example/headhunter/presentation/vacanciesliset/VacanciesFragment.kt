@@ -12,7 +12,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.data.model.PagerDataParamsParcel
+import com.example.domain.model.PagerDataParamsParcel
 import com.example.headhunter.R
 import com.example.headhunter.appComponent
 import com.example.headhunter.databinding.FragmentVacanciesBinding

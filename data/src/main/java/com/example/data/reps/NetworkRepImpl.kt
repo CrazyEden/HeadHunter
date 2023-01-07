@@ -1,6 +1,6 @@
 package com.example.data.reps
 
-import com.example.domain.model.PagerDataParams
+import com.example.domain.model.PagerDataParamsParcel
 import com.example.domain.model.pagerdata.PagerData
 import com.example.domain.model.vacancyinfo.VacancyInfo
 import com.example.domain.reps.NetworkRep
@@ -11,7 +11,7 @@ class NetworkRepImpl @Inject constructor(
 ): NetworkRep {
     override suspend fun getVacancies(
         page: Int,
-        params: PagerDataParams
+        params: PagerDataParamsParcel
     ): PagerData? {
         return  api.getPage(
             page = page,

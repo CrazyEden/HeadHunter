@@ -3,6 +3,7 @@ package com.example.data.reps
 
 
 import androidx.room.*
+import com.example.domain.model.RoomDataEntity
 
 @Dao
 interface VacanciesDao {

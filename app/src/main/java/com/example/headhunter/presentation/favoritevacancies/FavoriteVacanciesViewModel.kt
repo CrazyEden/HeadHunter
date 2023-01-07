@@ -2,7 +2,7 @@ package com.example.headhunter.presentation.favoritevacancies
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.domain.model.RoomData
+import com.example.domain.model.RoomDataEntity
 import com.example.domain.usecase.localdata.GetAllVacanciesUseCase
 import com.example.headhunter.presentation.vacanciesliset.TAG
 import kotlinx.coroutines.launch
@@ -12,8 +12,8 @@ class FavoriteVacanciesViewModel(
     private val getAllVacanciesUseCase: GetAllVacanciesUseCase,
 ) : ViewModel() {
 
-    private val _vacanciesLiveData = MutableLiveData<MutableList<RoomData>?>()
-    val vacanciesLiveData: LiveData<MutableList<RoomData>?> = _vacanciesLiveData
+    private val _vacanciesLiveData = MutableLiveData<MutableList<RoomDataEntity>?>()
+    val vacanciesLiveData: LiveData<MutableList<RoomDataEntity>?> = _vacanciesLiveData
 
 
     fun updateUi() {

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.domain.model.RoomDataEntity
 
 @Database(
     entities = [RoomDataEntity::class],
@@ -11,10 +12,10 @@ import androidx.room.RoomDatabase
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun vacanciesDao():VacanciesDao
+    abstract fun vacanciesDao(): VacanciesDao
     companion object{
-        private var dbInstance:AppDatabase? = null
-        fun getInstance(context:Context):AppDatabase{
+        private var dbInstance: AppDatabase? = null
+        fun getInstance(context:Context): AppDatabase {
             if (dbInstance == null){
                 dbInstance = Room.databaseBuilder(
                     context,

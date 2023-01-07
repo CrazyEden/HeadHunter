@@ -1,5 +1,8 @@
 package com.example.domain.model.vacancyinfo
 
+import android.graphics.Bitmap
+import com.example.domain.model.RoomDataEntity
+import com.example.domain.units.toCompactString
 import com.google.gson.annotations.SerializedName
 
 
@@ -46,4 +49,19 @@ data class VacancyInfo (
     @SerializedName("professional_roles"        ) var professionalRoles       : ArrayList<ProfessionalRoles>    = arrayListOf(),
     @SerializedName("languages"                 ) var languages               : ArrayList<Languages>            = arrayListOf()
 
-)
+){
+    fun toRoomDataEntity(bitmap:Bitmap):RoomDataEntity{
+        return RoomDataEntity(
+            vacancyId = this.id!!,
+            vacancyName = this.name!!,
+            salary = this.salary.toCompactString,
+            experience = this.experience?.name!!,
+            schedule = this.schedule?.name!!,
+            employer = this.employer?.name!!,
+            area = this.area?.name!!,
+            descriptions = this.description!!,
+            keySkills = this.keySkills.map { it.name!! },
+            image = bitmap
+        )
+    }
+}

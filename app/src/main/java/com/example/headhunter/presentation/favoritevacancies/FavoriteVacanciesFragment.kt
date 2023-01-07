@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.data.reps.RoomDataEntity
 import com.example.headhunter.R
 import com.example.headhunter.appComponent
 import com.example.headhunter.databinding.FragmentFavoriteVacanciesBinding
@@ -37,13 +36,12 @@ class FavoriteVacanciesFragment : Fragment() {
         }
 
         adapter = FavoriteVacanciesAdapter{
-            val ent = RoomDataEntity.fromRoomData(it)
             parentFragmentManager.beginTransaction()
                 .addToBackStack(null)
                 .replace(
                     R.id.container,
                     VacancyInfoFragment::class.java,
-                    bundleOf(VacancyInfoFragment.VACANCY_KEY to ent)
+                    bundleOf(VacancyInfoFragment.VACANCY_KEY to it)
                 )
                 .commit()
         }

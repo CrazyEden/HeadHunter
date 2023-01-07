@@ -1,4 +1,4 @@
-package com.example.data.reps
+package com.example.domain.units
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -25,7 +25,7 @@ class Converters {
     }
 
     @TypeConverter
-    fun toBitmap(array: ByteArray):Bitmap{
-        return BitmapFactory.decodeByteArray(array,0,array.size)
+    fun toBitmap(array: ByteArray): Bitmap {
+        return BitmapFactory.decodeByteArray(array, 0, array.size)
     }
 }
