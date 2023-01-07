@@ -9,7 +9,6 @@ import androidx.room.RoomDatabase
     entities = [RoomDataEntity::class],
     version = 1,
     exportSchema = false
-
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun vacanciesDao():VacanciesDao
@@ -21,7 +20,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context,
                     AppDatabase::class.java,
                     "xdd"
-                ) .build()
+                ).fallbackToDestructiveMigration().build()
             }
             return dbInstance!!
         }

@@ -26,4 +26,6 @@
     <string name="key_skills">Ключевые навыки:</string>
     <string name="employer_image">Изображение работодателя</string>
     <string name="button_full_settings_content_description">Расширенный поиск</string>
+    <string name="full_list_vacancies">Полный список</string>
+    <string name="favorite_list_vacancies">Избранные вакансии</string>
 </resources>

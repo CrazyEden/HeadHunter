@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item
+            android:id="@+id/mainfh"
+            android:title="@string/full_list_vacancies"
+            android:orderInCategory="1"/>
+
+        <item
+            android:id="@+id/favoritefh"
+            android:title="@string/favorite_list_vacancies"
+            android:orderInCategory="2"/>
+
+    </group>
+</menu>

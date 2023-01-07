@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.headhunter.databinding.ItemSkillBinding
 
-class KeySkillsAdapter(private val keySkills:List<String?>): RecyclerView.Adapter<KeySkillsAdapter.KeySkillsViewHolder>() {
+class KeySkillsAdapter(private val keySkills:List<String?>?): RecyclerView.Adapter<KeySkillsAdapter.KeySkillsViewHolder>() {
     class KeySkillsViewHolder(val binding: ItemSkillBinding):RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): KeySkillsViewHolder {
@@ -15,8 +15,8 @@ class KeySkillsAdapter(private val keySkills:List<String?>): RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: KeySkillsViewHolder, position: Int) {
-        holder.binding.name.text = keySkills[position]
+        holder.binding.name.text = keySkills?.get(position)
     }
 
-    override fun getItemCount() = keySkills.size
+    override fun getItemCount() = keySkills?.size ?: 0
 }

@@ -10,5 +10,6 @@ data class RoomData(
     var employer:String,
     var area:String,
     var descriptions:String,
-    var keySkills:String
+    var keySkills:List<String>?,
+    var image:String?
 )

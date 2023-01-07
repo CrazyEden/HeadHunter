@@ -1,4 +1,4 @@
-package com.example.headhunter.presentation.utils
+package com.example.domain.units
 
 
 val com.example.domain.model.pagerdata.Salary?.toCompactString:String

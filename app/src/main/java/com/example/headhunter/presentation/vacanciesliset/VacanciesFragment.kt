@@ -2,7 +2,6 @@ package com.example.headhunter.presentation.vacanciesliset
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,13 +53,9 @@ class VacanciesFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentVacanciesBinding.inflate(inflater,container,false)
-        dialogBinding = SearchPanelBinding.inflate(layoutInflater)
-        dialod = BottomSheetDialog(requireContext())
-        dialod.setContentView(dialogBinding.root)
+        inflateDialog()
         searchSettings = SearchSettings(requireContext())
-        adapter = VacanciesPagingAdapter{
-            openInfoFragment(it)
-        }
+        adapter = VacanciesPagingAdapter{ openInfoFragment(it) }
         search()
 
         val adapterWithLoadStateFooter = adapter.withLoadStateFooter(VacanciesLoadStateAdapter{
@@ -68,12 +63,18 @@ class VacanciesFragment : Fragment() {
         })
         binding.rcViewVacancies.adapter = adapterWithLoadStateFooter
 
-        binding.imageButtonFullSettings.setOnClickListener {
-            dialod.show()
-        }
         inflateSearchPanel()
 
         return binding.root
+    }
+
+    private fun inflateDialog() {
+        dialogBinding = SearchPanelBinding.inflate(layoutInflater)
+        dialod = BottomSheetDialog(requireContext())
+        dialod.setContentView(dialogBinding.root)
+        binding.imageButtonFullSettings.setOnClickListener {
+            dialod.show()
+        }
     }
 
     private fun inflateSearchPanel() {
@@ -109,11 +110,6 @@ class VacanciesFragment : Fragment() {
 
     private fun initCheckboxListeners() {
         /* employment checkboxes*/
-//        dialogBinding.employmentFullCheckbox.isChecked = params.employmentIds[0] != null
-//        dialogBinding.employmentPartCheckbox.isChecked = params.employmentIds[1] != null
-//        dialogBinding.employmentProjectCheckbox.isChecked = params.employmentIds[2] != null
-//        dialogBinding.employmentVolunteerCheckbox.isChecked = params.employmentIds[4] != null
-//        dialogBinding.employmentProbationCheckbox.isChecked = params.employmentIds[5] != null
         dialogBinding.employmentFullCheckbox.setOnCheckedChangeListener { _, isChecked ->
             val key = searchSettings.employment[getString(R.string.full_employment)]!!
             if (isChecked) params.employmentIds[0] = key
@@ -140,11 +136,6 @@ class VacanciesFragment : Fragment() {
             else params.employmentIds[4] = null
         }
         /* schedule checkboxes*/
-//        dialogBinding.scheduleFullDay.isChecked = params.scheduleIds[0] != null
-//        dialogBinding.scheduleShift.isChecked = params.scheduleIds[1] != null
-//        dialogBinding.scheduleFlexible.isChecked = params.scheduleIds[2] != null
-//        dialogBinding.scheduleRemote.isChecked = params.scheduleIds[3] != null
-//        dialogBinding.scheduleFlyInFlyOut.isChecked = params.scheduleIds[4] != null
         dialogBinding.scheduleFullDay.setOnCheckedChangeListener { _, isChecked ->
             val key = searchSettings.schedule[getString(R.string.full_day_schedule)]!!
             if (isChecked) params.scheduleIds[0] = key
@@ -178,10 +169,6 @@ class VacanciesFragment : Fragment() {
                     dialogBinding.experienceSpinner.selectedItem.toString()]
         }
         dialod.hide()
-        Log.d(TAG, "search text: ${params.text}")
-        Log.d(TAG, "search experienceId: ${params.experienceId}")
-        Log.d(TAG, "search scheduleIds: ${params.scheduleIds}")
-        Log.d(TAG, "search employmentIds: ${params.employmentIds}")
         binding.textSearch.clearFocus()
         lifecycleScope.launch {
             vModel.createFlow(params).collectLatest { adapter.submitData(it) }

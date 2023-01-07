@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domain.model.pagerdata.Items
+import com.example.domain.units.toCompactString
 import com.example.headhunter.databinding.ItemVacancyBinding
-import com.example.headhunter.presentation.utils.toCompactString
 
-class VacanciesPagingAdapter(private val openVacancy:(id:String) -> Unit)
-    : PagingDataAdapter<com.example.domain.model.pagerdata.Items, VacanciesPagingAdapter.VacanciesViewHolder>(ItemsCallBack()) {
+class VacanciesPagingAdapter(
+    private val openVacancy:(id:String) -> Unit
+) : PagingDataAdapter<Items, VacanciesPagingAdapter.VacanciesViewHolder>(ItemsCallBack()) {
     class VacanciesViewHolder(val binding:ItemVacancyBinding):RecyclerView.ViewHolder(binding.root)
 
     override fun onBindViewHolder(holder: VacanciesViewHolder, position: Int) {
@@ -37,10 +39,10 @@ class VacanciesPagingAdapter(private val openVacancy:(id:String) -> Unit)
     }
 }
 
-class ItemsCallBack : DiffUtil.ItemCallback<com.example.domain.model.pagerdata.Items>(){
-    override fun areItemsTheSame(oldItem: com.example.domain.model.pagerdata.Items, newItem: com.example.domain.model.pagerdata.Items): Boolean =
+class ItemsCallBack : DiffUtil.ItemCallback<Items>(){
+    override fun areItemsTheSame(oldItem: Items, newItem: Items): Boolean =
         oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: com.example.domain.model.pagerdata.Items, newItem: com.example.domain.model.pagerdata.Items): Boolean =
+    override fun areContentsTheSame(oldItem: Items, newItem: Items): Boolean =
         oldItem == newItem
 }

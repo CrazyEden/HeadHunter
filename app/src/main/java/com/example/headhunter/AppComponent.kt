@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.headhunter.di.BindsModule
 import com.example.headhunter.di.NetworkModule
 import com.example.headhunter.di.RoomModule
+import com.example.headhunter.presentation.favoritevacancies.FavoriteVacanciesFragment
 import com.example.headhunter.presentation.vacanciesliset.VacanciesFragment
 import com.example.headhunter.presentation.vacancyinfo.VacancyInfoFragment
 import dagger.BindsInstance
@@ -15,6 +16,7 @@ import javax.inject.Singleton
 interface AppComponent {
     fun inject(vacanciesFragment: VacanciesFragment)
     fun inject(VacancyInfoFragment: VacancyInfoFragment)
+    fun inject(favoriteVacanciesFragment: FavoriteVacanciesFragment)
 
     @Component.Builder
     interface Builder {

@@ -16,10 +16,15 @@ class LocalDataRepImpl @Inject constructor(
         employer = this.employer,
         area = this.area,
         descriptions = this.descriptions,
-        keySkills = this.keySkills
+        keySkills = this.keySkills,
+        image = this.image
     )
     override suspend fun getAllVacancies(): MutableList<RoomData>? {
         return vacanciesDao.getAllVacancies()?.map { it.toRoomData() }?.toMutableList()
+    }
+
+    override suspend fun getListVacanciesId(): MutableList<String>? {
+        return vacanciesDao.getListId()
     }
 
     override suspend fun getVacancyInfo(id: String): RoomData? {
@@ -32,9 +37,5 @@ class LocalDataRepImpl @Inject constructor(
 
     override suspend fun removeVacancy(vacancy: RoomData) {
         vacanciesDao.removeVacancy(vacancy.toEntity())
-    }
-
-    override suspend fun updateVacancy(vacancy: RoomData) {
-        vacanciesDao.updateVacancy(vacancy.toEntity())
     }
 }
