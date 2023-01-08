@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.text.Html
-import android.text.Html.FROM_HTML_MODE_COMPACT
+import android.text.Html.FROM_HTML_MODE_LEGACY
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -53,7 +53,8 @@ class VacancyInfoFragment : Fragment() {
     ): View {
         binding = FragmentVacancyInfoBinding.inflate(inflater,container,false)
         isVacancyFavorite = savedInstanceState?.getBoolean("isVacancyFavorite",false) ?: false
-        val vacancy = arguments?.getParcelable(VACANCY_KEY) as? RoomDataEntity
+        @Suppress("DEPRECATION")
+        val vacancy = arguments?.getParcelable<RoomDataEntity?>(VACANCY_KEY)
         if (vacancy != null) {
             inflateView(vacancy)
             return binding.root
@@ -103,16 +104,19 @@ class VacancyInfoFragment : Fragment() {
             crossfade(1000)
             transformations(RoundedCornersTransformation(30f))
         }
-        val des = Html.fromHtml(vacancyInfo.descriptions,FROM_HTML_MODE_COMPACT).toString()
+        val des = Html.fromHtml(vacancyInfo.htmlDescription, FROM_HTML_MODE_LEGACY)
+        binding.descriptions.text = des
         binding.iconFavorite.setImageResource(R.drawable.ic_heart_fill)
         binding.iconFavorite.setOnClickListener {
             onHeartClick(vacancyInfo)
         }
         binding.area.text = vacancyInfo.area
-        binding.descriptions.text = des
-        if (vacancyInfo.keySkills?.isNotEmpty() == true)
-            binding.keySkills.adapter = KeySkillsAdapter(vacancyInfo.keySkills)
-        else binding.keySkillsTextView.visibility = View.GONE
+        Log.w(TAG, "${vacancyInfo.keySkills}", )
+        Log.w(TAG, "${vacancyInfo.keySkills.none()}", )
+        Log.w(TAG, "${vacancyInfo.keySkills.isEmpty()}", )
+        if (vacancyInfo.keySkills.isEmpty())
+            binding.keySkillsTextView.visibility = View.GONE
+        else binding.keySkills.adapter = KeySkillsAdapter(vacancyInfo.keySkills)
     }
     private fun inflateView(vacancyInfo: VacancyInfo) {
         binding.progressBar.visibility = View.GONE
@@ -140,16 +144,15 @@ class VacancyInfoFragment : Fragment() {
                 }
             }
         }
-        val des = Html.fromHtml(vacancyInfo.description,FROM_HTML_MODE_COMPACT).toString()
-
+        val des = Html.fromHtml(vacancyInfo.description, FROM_HTML_MODE_LEGACY)
+        binding.descriptions.text = des
         binding.iconFavorite.setOnClickListener {
             onHeartClick(vacancyInfo,binding.employerImage.drawToBitmap())
         }
         binding.area.text = vacancyInfo.area?.name
-        binding.descriptions.text = des
-        if (vacancyInfo.keySkills.isNotEmpty())
-            binding.keySkills.adapter = KeySkillsAdapter(vacancyInfo.keySkills.map { it.name })
-        else binding.keySkillsTextView.visibility = View.GONE
+        if (vacancyInfo.keySkills.isEmpty())
+            binding.keySkillsTextView.visibility = View.GONE
+        else binding.keySkills.adapter = KeySkillsAdapter(vacancyInfo.keySkills.map { it.name })
     }
 
     private fun onHeartClick(vacancyInfo: VacancyInfo, bitmap:Bitmap) {
@@ -163,7 +166,6 @@ class VacancyInfoFragment : Fragment() {
             isVacancyFavorite = true
             binding.iconFavorite.setImageResource(R.drawable.ic_heart_fill)
         }
-        Log.d(TAG, "onHeartClick: $isVacancyFavorite")
     }
     private fun onHeartClick(data: RoomDataEntity) {
 
@@ -171,12 +173,10 @@ class VacancyInfoFragment : Fragment() {
             isVacancyFavorite = false
             vModel.removeVacancyFromFavoriteList(data)
             binding.iconFavorite.setImageResource(R.drawable.ic_heart)
-            Log.d(TAG, "onHeartClick: removed")
         } else {
             isVacancyFavorite = true
             vModel.makeVacancyFavorite(data)
             binding.iconFavorite.setImageResource(R.drawable.ic_heart_fill)
-            Log.d(TAG, "onHeartClick: added")
         }
     }
 

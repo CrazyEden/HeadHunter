@@ -6,6 +6,7 @@ import dagger.Provides
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.Duration
 
 @Module
 object NetworkModule {
@@ -28,9 +29,13 @@ object NetworkModule {
     @Provides
     fun provideGsonConverter(): GsonConverterFactory =
         GsonConverterFactory.create()
-
+    private val durationTimeout = Duration.ofSeconds(10000)
     @Provides
     fun provideHttpClient(): OkHttpClient =
         OkHttpClient.Builder()
+            .callTimeout(durationTimeout)
+            .connectTimeout(durationTimeout)
+            .writeTimeout(durationTimeout)
+            .readTimeout(durationTimeout)
             .build()
 }

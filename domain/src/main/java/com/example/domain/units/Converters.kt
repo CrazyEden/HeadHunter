@@ -14,6 +14,7 @@ class Converters {
     }
     @TypeConverter
     fun toList(string: String):List<String>{
+        if (string == "") return listOf()
         return string.split(",")
     }
 

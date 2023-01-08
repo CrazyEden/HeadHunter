@@ -23,7 +23,7 @@ data class RoomDataEntity(
     @ColumnInfo(name = "schedule") var schedule:String,
     @ColumnInfo(name = "employer") var employer:String,
     @ColumnInfo(name = "area") var area:String,
-    @ColumnInfo(name = "descriptions") var descriptions:String,
-    @ColumnInfo(name = "key_skills") var keySkills:List<String>?,
+    @ColumnInfo(name = "descriptions") var htmlDescription:String,
+    @ColumnInfo(name = "key_skills") var keySkills:List<String>,
     @ColumnInfo(name = "image") var image:Bitmap?
 ): Parcelable

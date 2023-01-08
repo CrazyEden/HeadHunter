@@ -59,7 +59,7 @@ data class VacancyInfo (
             schedule = this.schedule?.name!!,
             employer = this.employer?.name!!,
             area = this.area?.name!!,
-            descriptions = this.description!!,
+            htmlDescription = this.description!!,
             keySkills = this.keySkills.map { it.name!! },
             image = bitmap
         )

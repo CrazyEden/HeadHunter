@@ -31,7 +31,7 @@ class FavoriteVacanciesAdapter(
         holder.binding.vacancyName.text = item.vacancyName
         holder.binding.location.text = item.area
         holder.binding.requirement.text = Html.fromHtml(
-            item.descriptions,
+            item.htmlDescription,
             Html.FROM_HTML_MODE_COMPACT
         )
     }
