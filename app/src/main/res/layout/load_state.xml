@@ -7,7 +7,7 @@
         android:id="@+id/buttonRetry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="давай по новой"
+        android:text="@string/retry"
         android:layout_gravity="center_horizontal"/>
     <ProgressBar
         android:id="@+id/progress"

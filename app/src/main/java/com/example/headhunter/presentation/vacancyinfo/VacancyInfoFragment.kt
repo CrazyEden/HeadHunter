@@ -54,20 +54,38 @@ class VacancyInfoFragment : Fragment() {
         binding = FragmentVacancyInfoBinding.inflate(inflater,container,false)
         isVacancyFavorite = savedInstanceState?.getBoolean("isVacancyFavorite",false) ?: false
         val vacancy = arguments?.getParcelable(VACANCY_KEY) as? RoomDataEntity
-        if (vacancy == null){
-            vModel.vacancyInfoLiveData.observe(viewLifecycleOwner){ inflateView(it) }
-            vModel.isVacancyFavoriteLiveData.observe(viewLifecycleOwner){
-                isVacancyFavorite = it
-                binding.iconFavorite.setImageResource(
-                    if (it) R.drawable.ic_heart_fill
-                    else R.drawable.ic_heart
-                )
-            }
-        } else {
+        if (vacancy != null) {
             inflateView(vacancy)
+            return binding.root
+        }
+
+        tryLoad()
+        binding.buttonRetryInfo.setOnClickListener {
+            tryLoad()
+        }
+        vModel.vacancyInfoLiveData.observe(viewLifecycleOwner){
+            binding.progressBar.visibility = View.GONE
+            if (it != null) {
+                inflateView(it)
+                return@observe
+            }
+            binding.buttonRetryInfo.visibility = View.VISIBLE
+        }
+        vModel.isVacancyFavoriteLiveData.observe(viewLifecycleOwner){
+            isVacancyFavorite = it
+            binding.iconFavorite.setImageResource(
+                if (it) R.drawable.ic_heart_fill
+                else R.drawable.ic_heart
+            )
         }
         return binding.root
     }
+
+    private fun tryLoad(){
+        binding.progressBar.visibility = View.VISIBLE
+        vModel.loadVacancy()
+    }
+
     private fun inflateView(vacancyInfo: RoomDataEntity){
         binding.progressBar.visibility = View.GONE
         isVacancyFavorite = true
@@ -98,7 +116,7 @@ class VacancyInfoFragment : Fragment() {
     }
     private fun inflateView(vacancyInfo: VacancyInfo) {
         binding.progressBar.visibility = View.GONE
-
+        binding.buttonRetryInfo.visibility = View.GONE
         binding.vacancyName.text = vacancyInfo.name
         binding.salary.text = vacancyInfo.salary?.toCompactString
         val exp = "Требуемый опыт: ${vacancyInfo.experience?.name}"

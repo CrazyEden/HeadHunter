@@ -9,7 +9,8 @@ import com.example.domain.usecase.GetPageVacanciesUseCase
 
 class VacanciesPagingSource(
     private val getPageVacanciesUseCase: GetPageVacanciesUseCase,
-    private val requestParams: PagerDataParamsParcel
+    private val requestParams: PagerDataParamsParcel,
+    private val openVacancy:() -> Unit
 ) : PagingSource<Int, Items>() {
 
     override fun getRefreshKey(state: PagingState<Int, Items>): Int? {
@@ -19,11 +20,12 @@ class VacanciesPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Items> {
         val key = params.key ?: 0
 
-        return try {
+        return runCatching {
             val page = getPageVacanciesUseCase.execute(
                 page =key,
                 params = requestParams
             )!!
+
             val pKey = if (key == 0) null else key.minus(1)
             val nKey = if (key == page.pages) null else key.plus(1)
             LoadResult.Page(
@@ -31,9 +33,10 @@ class VacanciesPagingSource(
                 prevKey = pKey,
                 nextKey = nKey
             )
-        }catch (e:Throwable){
-            Log.wtf(TAG, "load: ", e)
-            LoadResult.Error(e)
+        }.getOrElse{
+            openVacancy
+            Log.wtf(TAG, "load: ", it)
+            LoadResult.Error(it)
         }
     }
 }

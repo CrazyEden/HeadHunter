@@ -12,6 +12,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import com.example.domain.model.PagerDataParamsParcel
 import com.example.headhunter.R
 import com.example.headhunter.appComponent
@@ -20,20 +21,22 @@ import com.example.headhunter.databinding.SearchPanelBinding
 import com.example.headhunter.presentation.utils.SearchSettings
 import com.example.headhunter.presentation.vacancyinfo.VacancyInfoFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 const val TAG = "xdd"
 class VacanciesFragment : Fragment() {
-    private lateinit var binding:FragmentVacanciesBinding
+    private lateinit var binding: FragmentVacanciesBinding
     private var params = PagerDataParamsParcel()
     @Inject lateinit var factory: VacanciesViewModel.Factory
     private val vModel: VacanciesViewModel by viewModels{ factory }
     private lateinit var adapter: VacanciesPagingAdapter
     private lateinit var dialod: BottomSheetDialog
-    private lateinit var dialogBinding:SearchPanelBinding
+    private lateinit var dialogBinding: SearchPanelBinding
     private lateinit var searchSettings: SearchSettings
+    private var state = 0
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
         super.onAttach(context)
@@ -56,11 +59,25 @@ class VacanciesFragment : Fragment() {
         inflateDialog()
         searchSettings = SearchSettings(requireContext())
         adapter = VacanciesPagingAdapter{ openInfoFragment(it) }
+        binding.buttonMainRetry.setOnClickListener {
+            search()
+        }
         search()
-
+        adapter.loadStateFlow.catch {
+            it.hashCode()
+        }
         val adapterWithLoadStateFooter = adapter.withLoadStateFooter(VacanciesLoadStateAdapter{
             adapter.retry()
         })
+        adapter.addLoadStateListener {
+            state = when(it.append){
+                is LoadState.Error-> 1
+                is LoadState.NotLoading -> 2
+                LoadState.Loading -> 3
+            }
+        }
+        
+
         binding.rcViewVacancies.adapter = adapterWithLoadStateFooter
 
         inflateSearchPanel()
@@ -171,7 +188,12 @@ class VacanciesFragment : Fragment() {
         dialod.hide()
         binding.textSearch.clearFocus()
         lifecycleScope.launch {
-            vModel.createFlow(params).collectLatest { adapter.submitData(it) }
+            vModel.createFlow(params){
+                if (state == 2)
+                    binding.buttonMainRetry.visibility = View.VISIBLE
+            }.collectLatest {
+                adapter.submitData(it)
+            }
         }
     }
 

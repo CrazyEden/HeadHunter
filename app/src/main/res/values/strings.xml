@@ -28,4 +28,5 @@
     <string name="button_full_settings_content_description">Расширенный поиск</string>
     <string name="full_list_vacancies">Полный список</string>
     <string name="favorite_list_vacancies">Избранные вакансии</string>
+    <string name="retry">Обновить</string>
 </resources>

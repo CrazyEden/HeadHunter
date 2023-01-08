@@ -10,7 +10,6 @@ import com.example.domain.usecase.localdata.SaveVacancyUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class VacancyInfoViewModel(
@@ -20,21 +19,27 @@ class VacancyInfoViewModel(
     private var removeVacancyUseCase: RemoveVacancyUseCase,
     private var getListIdUseCase: GetListIdUseCase
 ) : ViewModel() {
-    private val _vacancyInfoLiveData = MutableLiveData<VacancyInfo>()
-    val vacancyInfoLiveData:LiveData<VacancyInfo> = _vacancyInfoLiveData
+    private val _vacancyInfoLiveData = MutableLiveData<VacancyInfo?>()
+    val vacancyInfoLiveData:LiveData<VacancyInfo?> = _vacancyInfoLiveData
 
     private val _isVacancyFavoriteLiveData = MutableLiveData<Boolean>()
     val isVacancyFavoriteLiveData:LiveData<Boolean> = _isVacancyFavoriteLiveData
     init {
-        if (!id.isNullOrEmpty()){
-            viewModelScope.launch(Dispatchers.IO) {
-                _isVacancyFavoriteLiveData.postValue(
-                    getListIdUseCase.execute()?.contains(id) ?: false
-                )
+        viewModelScope.launch() {
+            _isVacancyFavoriteLiveData.postValue(
+                getListIdUseCase.execute()?.contains(id) ?: false
+            )
+        }
+    }
+
+    fun loadVacancy() {
+        if(id==null) return
+        viewModelScope.launch {
+            runCatching {
                 _vacancyInfoLiveData.postValue(
                     getVacancyInfoUseCase.execute(id)
                 )
-            }
+            }.getOrElse {  _vacancyInfoLiveData.postValue(null) }
         }
     }
 

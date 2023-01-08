@@ -16,7 +16,7 @@ import javax.inject.Inject
 class VacanciesViewModel(
     private val getPageVacanciesUseCase: GetPageVacanciesUseCase,
 ) : ViewModel() {
-    fun createFlow(params: PagerDataParamsParcel): Flow<PagingData<Items>> =
+    fun createFlow(params: PagerDataParamsParcel, openVacancy:() -> Unit): Flow<PagingData<Items>> =
         Pager(
             config = PagingConfig(
                 pageSize = 20,
@@ -25,7 +25,8 @@ class VacanciesViewModel(
             ),
             pagingSourceFactory = { VacanciesPagingSource(
                 getPageVacanciesUseCase,
-                params
+                params,
+                openVacancy
             )
         }
     ).flow.cachedIn(viewModelScope)

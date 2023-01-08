@@ -13,7 +13,7 @@ class NetworkRepImpl @Inject constructor(
         page: Int,
         params: PagerDataParamsParcel
     ): PagerData? {
-        return  api.getPage(
+        return api.getPage(
             page = page,
             text = params.text,
             experienceId = params.experienceId,

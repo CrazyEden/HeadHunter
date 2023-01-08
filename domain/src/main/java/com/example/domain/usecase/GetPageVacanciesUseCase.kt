@@ -8,6 +8,7 @@ import javax.inject.Inject
 class GetPageVacanciesUseCase @Inject constructor(
     private val networkRep: NetworkRep
     ) {
-    suspend fun execute(page: Int, params: PagerDataParamsParcel): PagerData? =
-        networkRep.getVacancies(page, params)
+    suspend fun execute(page: Int, params: PagerDataParamsParcel): PagerData? {
+        return networkRep.getVacancies(page, params)
+    }
 }

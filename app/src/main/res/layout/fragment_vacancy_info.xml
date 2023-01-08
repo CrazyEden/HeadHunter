@@ -62,6 +62,16 @@
             android:src="@drawable/ic_heart"
             android:layout_gravity="end"/>
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonRetryInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/retry"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_background"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
